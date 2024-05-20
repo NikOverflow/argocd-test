@@ -1,19 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: production
+  name: authentik
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-  source:
-    path: authentik
-    repoURL: "https://charts.goauthentik.io"
-    targetRevision: 2024.4.2
-    helm:
-      valueFiles:
-        - authentik-values.yml
+  sources:
+    - chart: authentik
+      repoURL: "https://charts.goauthentik.io"
+      targetRevision: 2024.4.2
+      helm:
+        valueFiles:
+          - $values/argocd/apps/authentik-values.yml
+    - repoURL: "https://github.com/NikOverflow/argocd-test.git"
+      targetRevision: HEAD
+      ref: values
   project: default
   syncPolicy:
     automated:

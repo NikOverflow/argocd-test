@@ -9,11 +9,7 @@ authentik:
 
 server:
     ingress:
-        # Specify kubernetes ingress controller class name
-        ingressClassName: traefik
-        enabled: true
-        hosts:
-            - authentik.secschool.net
+        enabled: false
 
 postgresql:
     enabled: true
