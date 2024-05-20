@@ -11,16 +11,16 @@ spec:
     namespace: authentik
   sources:
     - repoURL: "https://charts.goauthentik.io"
-      chart: authentik
+      path: authentik
       targetRevision: 2024.4.2
       helm:
         version: v3
         releaseName: authentik
-        #valueFiles:
-          #- $values/argocd/apps/authentik-values.yml
-    #- repoURL: "https://github.com/NikOverflow/argocd-test.git"
-      #targetRevision: HEAD
-      #ref: values
+        valueFiles:
+          - $values/argocd/apps/authentik-values.yml
+    - repoURL: "https://github.com/NikOverflow/argocd-test.git"
+      targetRevision: HEAD
+      ref: values
   project: default
   syncPolicy:
     automated:
