@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+  source:
+    path: authentik
+    repoURL: "https://charts.goauthentik.io"
+    targetRevision: 2024.4.2
+    helm:
+      valueFiles:
+        - authentik-values.yml
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=false
+      - PruneLast=true
+      - PrunePropagationPolicy=foreground
