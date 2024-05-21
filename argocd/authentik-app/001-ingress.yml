@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: authentik
+  namespace: authentik
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  tls:
+  - hosts:
+    - authentik.secschool.net
+    secretName: authentik-tls
+  rules:
+  - host: "authentik.secschool.net"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: authentik-server
+            port:
+              number: 80

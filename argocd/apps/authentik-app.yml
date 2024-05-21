@@ -1,26 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authentik
+  name: authentik-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: authentik
-  sources:
-    - repoURL: "https://charts.goauthentik.io"
-      chart: authentik
-      targetRevision: 2024.4.1
-      helm:
-        version: v3
-        releaseName: authentik
-        valueFiles:
-          - https://raw.githubusercontent.com/NikOverflow/argocd-test/master/argocd/apps/authentik-values.yml
-    #- repoURL: "https://github.com/NikOverflow/argocd-test.git"
-      #targetRevision: HEAD
-      #ref: values
+  source:
+    path: argocd/authentik-app/
+    repoURL: "https://github.com/NikOverflow/argocd-test.git"
+    targetRevision: HEAD
   project: default
   syncPolicy:
     automated:
@@ -31,27 +22,3 @@ spec:
       - CreateNamespace=false
       - PruneLast=true
       - PrunePropagationPolicy=foreground
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: authentik
-  namespace: authentik
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt"
-spec:
-  tls:
-  - hosts:
-    - authentik.secschool.net
-    secretName: authentik-tls
-  rules:
-  - host: "authentik.secschool.net"
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: authentik-server
-            port:
-              number: 80
