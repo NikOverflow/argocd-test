@@ -9,12 +9,12 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
   source:
-    path: argocd/apps_new/
+    path: argocd/app-chart/
     repoURL: "https://github.com/NikOverflow/argocd-test.git"
     targetRevision: HEAD
     helm:
       valueFiles:
-        - values.yml
+        - ../apps.prod.yml
   project: default
   syncPolicy:
     automated:
