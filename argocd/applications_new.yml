@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: "https://kubernetes.default.svc"
+  source:
+    path: argocd/apps_new/
+    repoURL: "https://github.com/NikOverflow/argocd-test.git"
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yml
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=false
+      - PruneLast=true
+      - PrunePropagationPolicy=foreground
