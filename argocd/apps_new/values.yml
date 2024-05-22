@@ -11,3 +11,8 @@ applications:
       - repoURL: "https://github.com/NikOverflow/argocd-test.git"
         path: argocd/authentik-app/
         targetRevision: HEAD
+  nginx-test:
+    sources:
+      - repoURL: "https://github.com/NikOverflow/argocd-test.git"
+        path: argocd/nginx-test-app/
+        targetRevision: HEAD
