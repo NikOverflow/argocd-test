@@ -10,7 +10,8 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: {{ $key }}
-  sources: {{ $val.sources }}
+  sources:
+{{ toYaml $val.sources | indent 4 }}
   project: default
   syncPolicy:
     automated:
